@@ -39,6 +39,13 @@ class CategoryChip extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
+          Text(
+            '  >',
+            style: TextStyle(
+              color: isDark ? Colors.white : Colors.black,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
