@@ -66,7 +66,7 @@ class _HomecontantState extends State<Homecontant> {
                   ),
                   // Content
                   Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -94,7 +94,7 @@ class _HomecontantState extends State<Homecontant> {
                               "Limited Time\nOffer",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 32,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -110,9 +110,9 @@ class _HomecontantState extends State<Homecontant> {
                                 fontSize: 13,
                               ),
                             ),
-                            const SizedBox(height: 16),
+                            const SizedBox(height: 10),
                             Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(8),
@@ -166,50 +166,50 @@ class _HomecontantState extends State<Homecontant> {
         ),
 
         /// TRENDING COLLECTIONS GRID
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 0.85,
-              children: [
-                _buildTrendingCard(
-                  "Onyx Watch Pro",
-                  "\$299",
-                  "4.9 (124)",
-                  "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
-                  isDark,
-                ),
-                _buildTrendingCard(
-                  "Neo Glide Sneakers",
-                  "\$145",
-                  "4.8 (89)",
-                  "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
-                  isDark,
-                  originalPrice: "\$180",
-                ),
-                _buildTrendingCard(
-                  "Sonic Aura X",
-                  "\$350",
-                  "5.0 (215)",
-                  "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
-                  isDark,
-                ),
-                _buildTrendingCard(
-                  "Latitude Leather Tote",
-                  "\$120",
-                  "4.7 (56)",
-                  "https://images.unsplash.com/photo-1548036328-c9fa89d128fa",
-                  isDark,
-                ),
-              ],
-            ),
-          ),
-        ),
+        // SliverToBoxAdapter(
+        //   child: Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: 16),
+        //     child: GridView.count(
+        //       crossAxisCount: 3,
+        //       shrinkWrap: true,
+        //       physics: const NeverScrollableScrollPhysics(),
+        //       crossAxisSpacing: 10,
+        //       mainAxisSpacing: 10,
+        //       childAspectRatio: 0.85,
+        //       children: [
+        //         _buildTrendingCard(
+        //           "Onyx Watch Pro",
+        //           "\$299",
+        //           "4.9 (124)",
+        //           "https://images.unsplash.com/photo-1523275335684-37898b6baf30",
+        //           isDark,
+        //         ),
+        //         _buildTrendingCard(
+        //           "Neo Glide Sneakers",
+        //           "\$145",
+        //           "4.8 (89)",
+        //           "https://images.unsplash.com/photo-1542291026-7eec264c27ff",
+        //           isDark,
+        //           originalPrice: "\$180",
+        //         ),
+        //         _buildTrendingCard(
+        //           "Sonic Aura X",
+        //           "\$350",
+        //           "5.0 (215)",
+        //           "https://images.unsplash.com/photo-1505740420928-5e560c06d30e",
+        //           isDark,
+        //         ),
+        //         _buildTrendingCard(
+        //           "Latitude Leather Tote",
+        //           "\$120",
+        //           "4.7 (56)",
+        //           "https://images.unsplash.com/photo-1548036328-c9fa89d128fa",
+        //           isDark,
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
 
         /// CURATED FOR YOU TITLE
         SliverToBoxAdapter(
@@ -292,103 +292,161 @@ class _HomecontantState extends State<Homecontant> {
     );
   }
 
-  Widget _buildTrendingCard(
-      String title,
-      String price,
-      String rating,
-      String imageUrl,
-      bool isDark, {
-        String? originalPrice,
-      }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: isDark ? Colors.grey.shade800 : Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
-            child: Image.network(
-              imageUrl,
-              height: 140,
-              width: double.infinity,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  height: 140,
-                  color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
-                );
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: isDark ? Colors.white : Colors.black,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Row(
-                  children: [
-                    Icon(Icons.star, size: 14, color: Colors.amber),
-                    const SizedBox(width: 4),
-                    Text(
-                      rating,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isDark ? Colors.grey : Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(
-                      price,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.red,
-                      ),
-                    ),
-                    if (originalPrice != null) ...[
-                      const SizedBox(width: 6),
-                      Text(
-                        originalPrice,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: isDark ? Colors.grey : Colors.grey.shade500,
-                          decoration: TextDecoration.lineThrough,
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildTrendingCard(
+  //     String title,
+  //     String price,
+  //     String rating,
+  //     String imageUrl,
+  //     bool isDark, {
+  //       String? originalPrice,
+  //     }) {
+  //   return LayoutBuilder(
+  //     builder: (context, constraints) {
+  //       final screenWidth = MediaQuery.of(context).size.width;
+  //       final screenHeight = MediaQuery.of(context).size.height;
+  //       final textScale = MediaQuery.of(context).textScaleFactor;
+  //
+  //       // Single scale factor for all responsive values
+  //       final baseScale = screenWidth / 375; // 375 = base design width (iPhone SE)
+  //
+  //       // Calculate all sizes based on scale factor
+  //       final titleFontSize = (14 * baseScale).clamp(12.0, 18.0);
+  //       final priceFontSize = (16 * baseScale).clamp(13.0, 20.0);
+  //       final ratingFontSize = (12 * baseScale).clamp(10.0, 16.0);
+  //       final paddingValue = (12 * baseScale).clamp(8.0, 16.0);
+  //       final borderRadius = (12 * baseScale).clamp(8.0, 16.0);
+  //       final iconSize = (14 * baseScale).clamp(12.0, 18.0);
+  //       final spacingSmall = (6 * baseScale).clamp(4.0, 8.0);
+  //       final spacingMedium = (8 * baseScale).clamp(6.0, 12.0);
+  //
+  //       return Container(
+  //         decoration: BoxDecoration(
+  //           color: isDark ? Colors.grey.shade800 : Colors.white,
+  //           borderRadius: BorderRadius.circular(borderRadius),
+  //           border: Border.all(
+  //             color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
+  //             width: 0.5,
+  //           ),
+  //           boxShadow: [
+  //             BoxShadow(
+  //               color: isDark ? Colors.black26 : Colors.black.withOpacity(0.08),
+  //               blurRadius: 4,
+  //               offset: const Offset(0, 2),
+  //             ),
+  //           ],
+  //         ),
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             // Product Image with AspectRatio (4:3 ratio - perfect scaling)
+  //             ClipRRect(
+  //               borderRadius: BorderRadius.only(
+  //                 topLeft: Radius.circular(borderRadius),
+  //                 topRight: Radius.circular(borderRadius),
+  //               ),
+  //               child: AspectRatio(
+  //                 aspectRatio: 4 / 3,
+  //                 child: Container(
+  //                   color: isDark ? Colors.grey.shade700 : Colors.grey.shade100,
+  //                   child: Image.network(
+  //                     imageUrl,
+  //                     fit: BoxFit.cover,
+  //                     errorBuilder: (context, error, stackTrace) {
+  //                       return Container(
+  //                         color: isDark ? Colors.grey.shade700 : Colors.grey.shade200,
+  //                         child: Center(
+  //                           child: Icon(
+  //                             Icons.image_not_supported_outlined,
+  //                             color: isDark ? Colors.grey.shade500 : Colors.grey,
+  //                             size: iconSize * 1.5,
+  //                           ),
+  //                         ),
+  //                       );
+  //                     },
+  //                   ),
+  //                 ),
+  //               ),
+  //             ),
+  //
+  //             // Product Details
+  //             Padding(
+  //               padding: EdgeInsets.all(paddingValue),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   // Title
+  //                   Text(
+  //                     title,
+  //                     maxLines: 2,
+  //                     overflow: TextOverflow.ellipsis,
+  //                     style: TextStyle(
+  //                       fontSize: titleFontSize,
+  //                       fontWeight: FontWeight.w600,
+  //                       color: isDark ? Colors.white : Colors.black87,
+  //                       height: 1.3,
+  //                     ),
+  //                   ),
+  //                   SizedBox(height: spacingSmall),
+  //
+  //                   // Rating Section
+  //                   Row(
+  //                     children: [
+  //                       Icon(
+  //                         Icons.star_rounded,
+  //                         size: iconSize,
+  //                         color: Colors.amber,
+  //                       ),
+  //                       SizedBox(width: spacingSmall * 0.7),
+  //                       Text(
+  //                         rating,
+  //                         style: TextStyle(
+  //                           fontSize: ratingFontSize,
+  //                           color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
+  //                           fontWeight: FontWeight.w500,
+  //                         ),
+  //                       ),
+  //                     ],
+  //                   ),
+  //                   SizedBox(height: spacingMedium),
+  //
+  //                   // Price Section
+  //                   Row(
+  //                     children: [
+  //                       Flexible(
+  //                         child: Text(
+  //                           price,
+  //                           style: TextStyle(
+  //                             fontSize: priceFontSize,
+  //                             fontWeight: FontWeight.bold,
+  //                             color: Colors.red.shade600,
+  //                           ),
+  //                         ),
+  //                       ),
+  //                       if (originalPrice != null) ...[
+  //                         SizedBox(width: spacingSmall),
+  //                         Flexible(
+  //                           child: Text(
+  //                             originalPrice,
+  //                             style: TextStyle(
+  //                               fontSize: ratingFontSize,
+  //                               color: isDark ? Colors.grey.shade500 : Colors.grey.shade500,
+  //                               decoration: TextDecoration.lineThrough,
+  //                               fontWeight: FontWeight.w400,
+  //                             ),
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ],
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildCuratedCard(
       String title,
