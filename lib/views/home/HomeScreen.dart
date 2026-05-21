@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:omnikart/views/Profile/Profile_screen.dart';
 import 'package:omnikart/widgets/HomeContent.dart';
+import 'package:omnikart/widgets/_CategoryChip.dart';
+import 'package:omnikart/widgets/_ProductCard.dart';
+import 'package:omnikart/widgets/_TrendCard.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,11 +18,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final List<Widget> _pages = [
     Homecontant(),
-    //CategoryScreen(),
-    // OrdersScreen(),
-    // CartScreen(),
+    CategoryChip(icon: Icons.import_contacts, label: 'label'),
+    ProductCard(image: 'image', title: 'title', price: 'price'),
+    TrendCard(image: 'image', label: 'label'),
     ProfilePage(),
-   // ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -53,31 +55,72 @@ class _HomeScreenState extends State<HomeScreen> {
             CircleAvatar(
               radius: 14,
               backgroundColor: Colors.blue,
-              child: Icon(Icons.person, size: 16, color: Colors.white),
+              child: InkWell(
+                onTap: (){
+               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+              },child: Icon(Icons.person, size: 16, color: Colors.white),
             ),
-        ],
-      ),
+            ),
+    ]),
 
       /// BODY
     body: _pages[_currentIndex],
 
       /// BOTTOM NAV
       bottomNavigationBar: SafeArea(
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap:  (index) => setState(() => _currentIndex = index),
-          selectedItemColor: const Color(0xFF2D63EA),
-          unselectedItemColor:
-          isDark ? Colors.white54 : Colors.black,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.white,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.category), label: "Categories"),
-            BottomNavigationBarItem(icon: Icon(Icons.local_shipping), label: "Orders"),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-          ],
+        child: Container(
+          margin: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(25), // 👈 Border Radius
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, 5),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(25), // 👈 Important
+            child: BottomNavigationBar(
+              currentIndex: _currentIndex,
+              onTap: (index) => setState(() => _currentIndex = index),
+
+              // Colors
+              backgroundColor: Colors.black,
+              selectedItemColor: const Color(0xFF2D63EA),
+              unselectedItemColor: Colors.white70,
+
+              // Style
+              type: BottomNavigationBarType.fixed,
+              elevation: 0,
+              showUnselectedLabels: true,
+
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_rounded),
+                  label: "Home",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.grid_view_rounded),
+                  label: "Categories",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.local_shipping_rounded),
+                  label: "Orders",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_cart_rounded),
+                  label: "Cart",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_rounded),
+                  label: "Profile",
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
