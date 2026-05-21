@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'Notifier_provider/SignUp.dart';
 import 'views/auth/splash_screen.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
