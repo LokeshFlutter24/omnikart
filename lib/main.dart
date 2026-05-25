@@ -3,26 +3,52 @@ import 'package:omnikart/views/Auth/login_screen.dart';
 import 'package:omnikart/views/Auth/signup_screen.dart';
 import 'package:omnikart/views/home/HomeScreen.dart';
 import 'package:provider/provider.dart';
-import 'Notifier_provider/SignUp.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'Notifier_provider/Provider_SignUp.dart';
+import 'Notifier_provider/Provider_profile.dart';
+import 'connectivity_service/connectivity_service.dart';
 import 'views/auth/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+
+  SharedPreferences prefs =
+  await SharedPreferences.getInstance();
+
+  bool isLogin = prefs.getBool('isLogin') ?? false;
+
+  runApp(MyApp(isLogin: isLogin));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+  final bool isLogin;
+
+  const MyApp({super.key, required this.isLogin});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => UserProvider()),
-        ],
+      providers: [
+
+        ChangeNotifierProvider(create: (_) => ConnectivityService()),
+
+        ChangeNotifierProvider(
+          create: (_) => UserProvider(),
+        ),
+        // ✅ ProfileProvider (ConnectivityService को pass करो)
+        ChangeNotifierProxyProvider<ConnectivityService, ProfileProvider>(
+          create: (context) => ProfileProvider(
+            Provider.of<ConnectivityService>(context, listen: false),
+          ),
+          update: (context, connectivityService, previous) =>
+              ProfileProvider(connectivityService),
+        ),
+
+      ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+
       routes: {
         '/login': (context) => const LoginScreen(),
         '/signup': (context) => const SignUpScreen(),
@@ -32,7 +58,9 @@ class MyApp extends StatelessWidget {
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: OmniKartSplash(),
+          home: isLogin
+              ? const HomeScreen()
+              : OmniKartSplash(),
     ),
     );
   }
@@ -52,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-
       _counter++;
     });
   }
