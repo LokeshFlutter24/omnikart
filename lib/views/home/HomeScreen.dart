@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:omnikart/views/Profile/Account_Settings/Profile_show.dart';
 import 'package:omnikart/views/Profile/Profile_screen.dart';
 import 'package:omnikart/widgets/HomeContent.dart';
 import 'package:omnikart/widgets/_CategoryChip.dart';
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
       /// APP BAR
       appBar: AppBar(
+          automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white, // ✅ pixel fix
         elevation: 0,
@@ -46,23 +48,45 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         actions: [
-          Icon(Icons.search, size: 24, color: isDark ? Colors.white : Colors.black),
-            const SizedBox(width: 12),
-            Icon(Icons.mic, size: 24, color: isDark ? Colors.white : Colors.black),
-            const SizedBox(width: 12),
-            Icon(Icons.notifications_none, size: 24, color: isDark ? Colors.white : Colors.black),
-            const SizedBox(width: 12),
-            CircleAvatar(
+          IconButton(onPressed: (){},icon: Icon(
+              Icons.search,
+              size: 24,
+              color: isDark ? Colors.white : Colors.black),),
+
+          IconButton(onPressed: (){},icon: Icon(
+              Icons.mic,
+              size: 24,
+              color: isDark ? Colors.white : Colors.black),),
+
+          IconButton(onPressed: (){},icon: Icon(
+              Icons.notifications_none,
+              size: 24,
+              color: isDark ? Colors.white : Colors.black),),
+
+          Padding(
+            padding: const EdgeInsets.only(right: 12,left: 14), // 👈 yaha adjust karo
+            child: CircleAvatar(
               radius: 14,
               backgroundColor: Colors.blue,
               child: InkWell(
-                onTap: (){
-               Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
-              },child: Icon(Icons.person, size: 16, color: Colors.white),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileShowScreen(),
+                    ),
+                  );
+                },
+                child: const Icon(
+                  Icons.person,
+                  size: 16,
+                  color: Colors.white,
+                ),
+              ),
             ),
-            ),
-    ]),
-
+          ),
+        ],
+      ),
       /// BODY
     body: _pages[_currentIndex],
 

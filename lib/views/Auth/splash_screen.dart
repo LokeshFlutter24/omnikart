@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../Notifier_provider/SignUp.dart';
+import '../../Notifier_provider/Provider_SignUp.dart';
 
 class OmniKartSplash extends StatefulWidget {
   const OmniKartSplash({super.key});

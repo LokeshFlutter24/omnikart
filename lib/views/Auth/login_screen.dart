@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:omnikart/views/Auth/signup_screen.dart';
 import 'package:omnikart/views/home/HomeScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Core/Utils/constants/constant.dart';
-import '../../Notifier_provider/SignUp.dart';
+import '../../Notifier_provider/Provider_SignUp.dart';
 import 'Forget_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -59,15 +60,21 @@ class _LoginScreenState extends State<LoginScreen>
         email: _emailController.text,
         password: _passwordController.text,
       );
-
       if (success) {
+        /// SAVE LOGIN
+        SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+
+        await prefs.setBool('isLogin', true);
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Login Successful ✅"),
-            backgroundColor: Color(0xFF2D63EA),
           ),
         );
+
         Navigator.pushReplacementNamed(context, "/home");
+
       } else {
         showDialog(
           context: context,
