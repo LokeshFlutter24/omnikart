@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:omnikart/views/Auth/login_screen.dart';
+import 'package:omnikart/views/Profile/Preferences/Notification.dart';
 import 'package:omnikart/views/Profile/Support/Help_Center.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../Notifier_provider/Provider_profile.dart';
+import '../../Notifier_provider/Theme_provider.dart';
 import '../../connectivity_service/connectivity_service.dart';
 import 'Account_Settings/Profile_show.dart';
 import 'Support/About_omnikart.dart';
@@ -19,7 +21,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool isDarkMode = false;
   int _selectedNavIndex = 4;
 
   @override
@@ -113,14 +114,9 @@ class _ProfilePageState extends State<ProfilePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Lottie.asset(
-            'assets/Animations/Error_no_data.json',
+            'assets/Animations/Progess_indicater.json',
             width: 300,
             height: 300,
-          ),
-          const SizedBox(height: 16),
-          const Text(
-            "No Profile Data",
-            style: TextStyle(fontSize: 16),
           ),
         ],
       ),
@@ -129,8 +125,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    // ✅ GET DARK MODE FROM PROVIDER
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFFFFFF),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,  // ✅ UPDATE
       body: Consumer2<ProfileProvider, ConnectivityService>(
         builder: (context, provider, connectivityService, child) {
           // ❌ No Internet
@@ -148,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
             return _noDataWidget();
           }
 
-          // ⏳ Loading + ✅ Success (Skeleton + Data)
+          // ⏳ Loading + ✅ Success
           final user = provider.users.isNotEmpty ? provider.users.first : null;
 
           return Skeletonizer(
@@ -168,7 +167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Colors.white,
+                              color: isDark ? Colors.grey[800]! : Colors.white,  // ✅ UPDATE
                               width: 4,
                             ),
                           ),
@@ -203,7 +202,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ? provider.users.first.email
                           : "loading@email.com",
                       style: TextStyle(
-                        color: Colors.grey[600],
+                        color: isDark ? Colors.grey[400] : Colors.grey[600],  // ✅ UPDATE
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -266,8 +265,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           const SizedBox(height: 12),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey[300]!),
+                              color: Theme.of(context).cardColor,  // ✅ UPDATE
+                              border: Border.all(
+                                color: isDark ? Colors.grey[700]! : Colors.grey[300]!,  // ✅ UPDATE
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Column(
@@ -277,19 +278,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                   title: 'Saved Addresses',
                                   onTap: () {},
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
                                 _SettingsMenuItem(
                                   icon: Icons.payment,
                                   title: 'Payment Methods',
                                   onTap: () {},
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
                                 _SettingsMenuItem(
                                   icon: Icons.dashboard,
                                   title: 'Dropshipping Dashboard',
                                   onTap: () {},
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
                                 _SettingsMenuItem(
                                   icon: Icons.security,
                                   title: 'Security & Password',
@@ -320,8 +330,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           const SizedBox(height: 12),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey[300]!),
+                              color: Theme.of(context).cardColor,  // ✅ UPDATE
+                              border: Border.all(
+                                color: isDark ? Colors.grey[700]! : Colors.grey[300]!,  // ✅ UPDATE
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Column(
@@ -329,9 +341,21 @@ class _ProfilePageState extends State<ProfilePage> {
                                 _SettingsMenuItem(
                                   icon: Icons.notifications,
                                   title: 'Notifications',
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => NotificationCenter(),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
+
+                                // Language Setting
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 16,
@@ -343,13 +367,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                         width: 40,
                                         height: 40,
                                         decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius:
-                                          BorderRadius.circular(8),
+                                          color: isDark ? Colors.grey[800] : Colors.grey[200],  // ✅ UPDATE
+                                          borderRadius: BorderRadius.circular(8),
                                         ),
-                                        child: const Icon(
+                                        child: Icon(
                                           Icons.language,
                                           size: 20,
+                                          color: isDark ? Colors.grey[300] : Colors.grey[700],  // ✅ UPDATE
                                         ),
                                       ),
                                       const SizedBox(width: 16),
@@ -366,58 +390,70 @@ class _ProfilePageState extends State<ProfilePage> {
                                         'English',
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: Colors.grey[600],
+                                          color: isDark ? Colors.grey[400] : Colors.grey[600],  // ✅ UPDATE
                                         ),
                                       ),
                                       const SizedBox(width: 8),
-                                      const Icon(
+                                      Icon(
                                         Icons.chevron_right,
-                                        color: Colors.grey,
+                                        color: isDark ? Colors.grey[600] : Colors.grey,  // ✅ UPDATE
                                       ),
                                     ],
                                   ),
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 16,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        width: 40,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[200],
-                                          borderRadius:
-                                          BorderRadius.circular(8),
-                                        ),
-                                        child: const Icon(
-                                          Icons.dark_mode,
-                                          size: 20,
-                                        ),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
+
+                                // Dark Mode Toggle ✅ UPDATE THIS
+                                Consumer<ThemeProvider>(
+                                  builder: (context, themeProvider, _) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 16,
                                       ),
-                                      const SizedBox(width: 16),
-                                      const Expanded(
-                                        child: Text(
-                                          'Dark Mode',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: isDark
+                                                  ? Colors.grey[800]
+                                                  : Colors.grey[200],
+                                              borderRadius:
+                                              BorderRadius.circular(8),
+                                            ),
+                                            child: Icon(
+                                              Icons.dark_mode,
+                                              size: 20,
+                                              color: isDark
+                                                  ? Colors.grey[300]
+                                                  : Colors.grey[700],
+                                            ),
                                           ),
-                                        ),
+                                          const SizedBox(width: 16),
+                                          const Expanded(
+                                            child: Text(
+                                              'Dark Mode',
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ),
+                                          Switch(
+                                            value: themeProvider.isDarkMode,
+                                            onChanged: (value) {
+                                              themeProvider?.setTheme(value);
+                                            },
+                                          ),
+                                        ],
                                       ),
-                                      Switch(
-                                        value: isDarkMode,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            isDarkMode = value;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -444,8 +480,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           const SizedBox(height: 12),
                           Container(
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.grey[300]!),
+                              color: Theme.of(context).cardColor,  // ✅ UPDATE
+                              border: Border.all(
+                                color: isDark ? Colors.grey[700]! : Colors.grey[300]!,  // ✅ UPDATE
+                              ),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Column(
@@ -463,7 +501,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     );
                                   },
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
                                 _SupportMenuItem(
                                   title: 'About OmniKart',
                                   icon: Icons.info,
@@ -477,7 +518,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     );
                                   },
                                 ),
-                                Divider(height: 1, color: Colors.grey[300]),
+                                Divider(
+                                  height: 1,
+                                  color: isDark ? Colors.grey[700] : Colors.grey[300],  // ✅ UPDATE
+                                ),
                                 _SupportMenuItem(
                                   title: 'Privacy Policy',
                                   icon: Icons.policy,
@@ -509,7 +553,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         height: 56,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
+                            backgroundColor: isDark ? Colors.grey[900] : Colors.black,  // ✅ UPDATE
                             foregroundColor: Colors.white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -526,7 +570,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                   content: Container(
                                     padding: const EdgeInsets.all(24),
                                     decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.95),
+                                      color: isDark
+                                          ? Color(0xFF1E293B).withOpacity(0.95)
+                                          : Colors.white.withOpacity(0.95),
                                       borderRadius:
                                       BorderRadius.circular(28),
                                       boxShadow: [
@@ -547,7 +593,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                             shape: BoxShape.circle,
                                             color: Colors.red.shade50,
                                             border: Border.all(
-                                              color: Colors.white,
+                                              color: isDark
+                                                  ? Color(0xFF1E293B)
+                                                  : Colors.white,
                                               width: 6,
                                             ),
                                           ),
@@ -589,20 +637,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 child: Container(
                                                   height: 55,
                                                   decoration: BoxDecoration(
-                                                    color:
-                                                    Colors.grey.shade200,
+                                                    color: isDark
+                                                        ? Colors.grey[800]
+                                                        : Colors.grey.shade200,
                                                     borderRadius:
                                                     BorderRadius.circular(
                                                         18),
                                                   ),
-                                                  child: const Center(
+                                                  child: Center(
                                                     child: Text(
                                                       "No",
                                                       style: TextStyle(
                                                         fontSize: 18,
                                                         fontWeight:
                                                         FontWeight.bold,
-                                                        color: Colors.black87,
+                                                        color: isDark
+                                                            ? Colors.white
+                                                            : Colors.black87,
                                                       ),
                                                     ),
                                                   ),
@@ -729,6 +780,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
+// ✅ UPDATE _OrderStatusCard
 class _OrderStatusCard extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -740,12 +792,16 @@ class _OrderStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       width: 128,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.grey[300]!),
+        color: Theme.of(context).cardColor,
+        border: Border.all(
+          color: isDark ? Colors.grey[700]! : Colors.grey[300]!,
+        ),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
@@ -754,12 +810,12 @@ class _OrderStatusCard extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: Colors.blue[100],
+              color: isDark ? Colors.blue[900] : Colors.blue[100],
               shape: BoxShape.circle,
             ),
             child: Icon(
               icon,
-              color: Colors.blue[700],
+              color: isDark ? Colors.blue[300] : Colors.blue[700],
             ),
           ),
           const SizedBox(height: 8),
@@ -768,7 +824,7 @@ class _OrderStatusCard extends StatelessWidget {
             style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
-              color: Colors.grey[700],
+              color: isDark ? Colors.grey[300] : Colors.grey[700],
             ),
             textAlign: TextAlign.center,
           ),
@@ -778,6 +834,7 @@ class _OrderStatusCard extends StatelessWidget {
   }
 }
 
+// ✅ UPDATE _SettingsMenuItem
 class _SettingsMenuItem extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -791,6 +848,8 @@ class _SettingsMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -806,13 +865,13 @@ class _SettingsMenuItem extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: isDark ? Colors.grey[800] : Colors.grey[200],
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
                   icon,
                   size: 20,
-                  color: Colors.grey[600],
+                  color: isDark ? Colors.grey[300] : Colors.grey[600],
                 ),
               ),
               const SizedBox(width: 16),
@@ -825,9 +884,9 @@ class _SettingsMenuItem extends StatelessWidget {
                   ),
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.chevron_right,
-                color: Colors.grey,
+                color: isDark ? Colors.grey[600] : Colors.grey,
               ),
             ],
           ),
@@ -837,6 +896,7 @@ class _SettingsMenuItem extends StatelessWidget {
   }
 }
 
+// ✅ UPDATE _SupportMenuItem
 class _SupportMenuItem extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -850,6 +910,8 @@ class _SupportMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -872,7 +934,7 @@ class _SupportMenuItem extends StatelessWidget {
               ),
               Icon(
                 icon,
-                color: Colors.grey[600],
+                color: isDark ? Colors.grey[400] : Colors.grey[600],
               ),
             ],
           ),

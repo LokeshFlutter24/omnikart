@@ -217,7 +217,7 @@ class _LoginScreenState extends State<LoginScreen>
                   BlendMode.difference,
                 ),
                 image: AssetImage(
-                  'assets/images/loginimage.png',
+                  AppImage.Login
                 ),
                 fit: BoxFit.cover,
               ),

@@ -55,6 +55,13 @@ Thank you for trusting OmniKart.
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         elevation: 0,
+        scrolledUnderElevation: 1,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF111318)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Row(
           children: [
             CircleAvatar(
