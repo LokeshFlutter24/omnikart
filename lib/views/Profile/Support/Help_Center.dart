@@ -67,6 +67,12 @@ class _HelpCenterState extends State<HelpCenter> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFF111318)),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         title: Text("Help Center",style:
           TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),),
       body: ListView.builder(

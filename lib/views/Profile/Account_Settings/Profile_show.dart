@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import '../../../Notifier_provider/Provider_profile.dart';
 import '../../../connectivity_service/connectivity_service.dart';
+import '../Account_Profile_update.dart';
 
 
 class ProfileShowScreen extends StatefulWidget {
@@ -342,7 +343,9 @@ class _ProfileShowScreenState extends State<ProfileShowScreen> {
                       ],
                     ),
                   ),
+
                   const SizedBox(height: 30),
+
                   SizedBox(
                     width: double.infinity,
                     height: 58,
@@ -353,7 +356,13 @@ class _ProfileShowScreenState extends State<ProfileShowScreen> {
                           borderRadius: BorderRadius.circular(18),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const AccountUpdate()));
+                      },
                       icon: const Icon(Icons.edit_outlined, color: Colors.white),
                       label: const Text(
                         "Edit Profile",
