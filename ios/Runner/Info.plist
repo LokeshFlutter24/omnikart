@@ -5,13 +5,14 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>App microphone access required for voice search</string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>App needs speech recognition</string>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
 	<string>Omnikart</string>
+		<key>NSMicrophoneUsageDescription</key>
+    	<string>App microphone access required for voice search</string>
+
+    	<key>NSSpeechRecognitionUsageDescription</key>
+    	<string>App needs speech recognition</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
